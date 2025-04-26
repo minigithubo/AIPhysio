@@ -1,0 +1,77 @@
+<!-- <!DOCTYPE html>
+<meta charset="utf-8" />
+<title>PT Chat Prototype</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css" />
+<body>
+  <h1>Physical-Therapy Chat</h1>
+
+  <h2>1  Upload condition</h2>
+  <input type="file" id="condFile" />
+  <button onclick="sendCondition()">send</button>
+
+  <h2>2  Get exercise plan</h2>
+  <button onclick="getPlan()">generate</button>
+  <pre id="plan"></pre>
+
+  <h2>3  Upload exercise video</h2>
+  <input type="file" id="vid" accept="video/*" />
+  <button onclick="critique()">critique</button>
+  <pre id="critique"></pre>
+
+  <script src="main.js"></script>
+</body> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Physical therapy App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="app">
+  <aside id="sidebar">
+    <div class="menu">
+      <div class="menu-item active">
+        <span class="menu-icon">💬</span>
+        <span class="menu-text">Chatting</span>
+      </div>
+      <div class="menu-item">
+        <span class="menu-icon">📝</span>
+        <span class="menu-text">Prescription</span>
+      </div>
+      <div class="menu-item">
+        <span class="menu-icon">⚙️</span>
+        <span class="menu-text">Settings</span>
+      </div>
+    </div>
+  </aside>
+  
+
+  <main id="main-content">
+    <header id="chat-header">
+      <button id="menu-button">☰</button>
+      <div id="header-options">⋮</div>
+      <h2 id="chat-title">Physical Therapy Assistant <span class="online-dot"></span></h2>
+    </header>
+
+    <div id="chat-container">
+      <div id="messages"></div>
+
+      <form id="chat-form">
+        <div class="chat-form-inner">
+          <input type="text" id="message-input" placeholder="Write a message..." autocomplete="off">
+          <label for="file-input" class="icon-button">📎</label>
+          <input type="file" id="file-input" accept="*/*" style="display: none;">
+          <button type="submit" class="icon-button">➤</button>
+        </div>
+      </form>      
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

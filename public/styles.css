@@ -1,0 +1,258 @@
+/* Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html, body {
+    height: 100%;
+    width: 100%;
+    font-family: sans-serif;
+    background-color: #f0f2f5;
+  }
+  
+  #app {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+  
+  /* 사이드바 기본 상태 */
+  #sidebar {
+    background: #fff;
+    width: 250px;
+    height: 100%;
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    overflow-y: auto;
+  }
+  
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
+  
+  .menu-item:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .menu-item.active {
+    background-color: #e5e5e5;
+  }
+  
+  .menu-icon {
+    font-size: 18px;
+  }
+  
+  
+  /* 사이드바 열렸을 때 */
+  #sidebar.show {
+    width: 250px; /* 열릴 때 너비 */
+  }
+  
+  /* 메인 컨텐츠 */
+  #main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    transition: flex 0.3s ease;
+    background: #fff;
+  }
+  
+  #chat-header {
+    position: relative; /* 추가해줘야 함 (부모 기준 잡기) */
+    height: 60px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+  }
+  
+  #chat-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  
+  #menu-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* 데스크탑에서는 숨김 */
+  }
+  
+  .online-dot {
+    width: 8px;
+    height: 8px;
+    background: green;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  #header-options {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  /* 채팅 메세지 영역 */
+  /* 기본 layout */
+  #chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: #fff;
+  }
+  
+  /* 헤더 */
+  #chat-header {
+    height: 60px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    gap: 10px;
+  }
+  
+  /* 메시지 영역 */
+  #messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* ✅ 중앙 정렬 */
+  }
+  
+  .message-row {
+    width: 100%;
+    max-width: 700px; /* ✅ 고정 폭 */
+    display: flex;
+  }
+  
+  .message-row.user {
+    justify-content: flex-end;
+  }
+  
+  .message-row.server {
+    justify-content: flex-start;
+  }
+  
+  .message-bubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
+  }
+  
+  .message-row.user .message-bubble {
+    background-color: #e7f3ff;
+  }
+  
+  .message-row.server .message-bubble {
+    background-color: #fff;
+    border: 1px solid #eee;
+  }
+  
+  /* 입력 폼 */
+  #chat-form {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* ✅ 입력창 중앙 정렬 */
+    padding: 10px;
+    border-top: 1px solid #eee;
+    background: #fff;
+  }
+  
+  .chat-form-inner {
+    width: 100%;
+    max-width: 700px; /* ✅ 고정 폭 */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #message-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+  
+  .icon-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  /* 모바일 모드 */
+  /* 추가만 해주세요 */
+  
+  /* 데스크탑 기본에서는 sidebar 숨겨두기 */
+  @media (min-width: 769px) {
+    #sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 250px;
+      background: #fff;
+      border-right: 1px solid #eee;
+      z-index: 1000;
+    }
+  
+    #sidebar.show {
+      transform: translateX(0);
+    }
+  
+    #app {
+      margin-left: 0;
+      transition: margin-left 0.3s ease;
+    }
+  
+    #app.menu-open {
+      margin-left: 250px;
+    }
+  }
+  
+  /* 모바일에서는 기존처럼 */
+  @media (max-width: 768px) {
+    #sidebar {
+      transform: translateX(-100%);
+    }
+  
+    #sidebar.show {
+      transform: translateX(0);
+    }
+  }
