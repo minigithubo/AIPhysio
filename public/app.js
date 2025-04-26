@@ -95,6 +95,26 @@ function appendDateLabelIfNeeded() {
   }
 }
 
+/*
+const file = condFile.files[0];
+    const fd = new FormData();
+    // Check if the file is a PDF
+    const isPDF = file.type === 'application/pdf';
+    if (!isPDF) {
+      alert('Please upload a PDF file.');
+      return;
+    }
+    fd.append('file', file);
+    response = await fetch('/condition', { method: 'POST', body: fd });
+    // alert response
+    const { ok } = await response.json();
+    if (ok) {
+      alert('Condition uploaded successfully.');
+    } else {
+      alert('Failed to upload condition.');
+    }
+      */
+
 async function sendMessageToServer(text) {
 
     // send message to server
@@ -110,9 +130,12 @@ async function sendMessageToServer(text) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
       const data = await response.json();
+      console.log("data", data);
       appendMessage("server", data.reply);
+    } catch (error) {
+      console.error("Error:", error);
+      appendMessage("server", "Error: " + error.message);
     }
 }
 

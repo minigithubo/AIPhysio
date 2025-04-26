@@ -14,23 +14,22 @@ app.use(express.static("public"));
 
 const upload = multer({ dest: "uploads/" });
 
-app.post("/api/chat", upload.single("file"), async (req, res) => {
+app.post("/api/chat", async (req, res) => {
   // accept txt/pdf OR plain JSON in body
   // check if file is pdf
-  if (req.file && req.file.mimetype !== "application/pdf") {
-    // return error response asking for pdf file
-    // log error
-    console.log("File is not a PDF");
-    return res.status(400).json({ error: "Please upload a PDF file." });
-  }
-  console.log("File is a PDF");
-  const text = req.file
+  console.log("File is a message");
+  const prompt = req.file
     ? await readFile(req.file.path, "utf8")
     : JSON.stringify(req.body, null, 2);
 
-  // store session state in memory (demo only!)
-  req.session = { condition: text };
-  res.json({ ok: true });
+  const chat = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  const reply = chat.choices[0].message.content;
+  console.log("response", reply);
+  res.json({ reply });
 });
 
 /* ---------- 1. body-condition upload ---------- */
@@ -57,7 +56,6 @@ app.post("/condition", upload.single("file"), async (req, res) => {
 app.post("/plan", async (req, res) => {
   const { condition } = req.session ?? {};
 
-  console.log("asdasdasd");
   const prompt =
     `Act as a licensed physical therapist. Given the client condition:\n\n` +
     condition +
