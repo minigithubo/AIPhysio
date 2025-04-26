@@ -17,7 +17,6 @@ const upload = multer({ dest: "uploads/" });
 app.post("/api/chat", async (req, res) => {
   // accept txt/pdf OR plain JSON in body
   // check if file is pdf
-  console.log("File is a message");
   const prompt = req.file
     ? await readFile(req.file.path, "utf8")
     : JSON.stringify(req.body, null, 2);
@@ -42,36 +41,46 @@ app.post("/condition", upload.single("file"), async (req, res) => {
     console.log("File is not a PDF");
     return res.status(400).json({ error: "Please upload a PDF file." });
   }
-  console.log("File is a PDF");
   const text = req.file
     ? await readFile(req.file.path, "utf8")
     : JSON.stringify(req.body, null, 2);
-
+  console.log("text", text);
+  return;
   // store session state in memory (demo only!)
-  req.session = { condition: text };
-  res.json({ ok: true });
-});
-
-/* ---------- 2. generate exercise plan ---------- */
-app.post("/plan", async (req, res) => {
-  const { condition } = req.session ?? {};
-
-  const prompt =
-    `Act as a licensed physical therapist. Given the client condition:\n\n` +
-    condition +
-    `\n\nGenerate a short, safe exercise instruction. First of the routine.`;
-
+  const prompt = text;
+  console.log("condition", prompt);
+  prompt += "Act as a licensed physical therapist. Given the client condition, generate a short, safe exercise instruction. First of the routine.";
+  
   const chat = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [{ role: "user", content: prompt }],
   });
-
-  console.log(chat);
-
+  
   const plan = chat.choices[0].message.content;
   console.log("plan", plan);
   res.json({ plan });
 });
+
+/* ---------- 2. generate exercise plan ---------- */
+// app.post("/plan", async (req, res) => {
+//   const { condition } = req.session ?? {};
+
+//   const prompt =
+//     `Act as a licensed physical therapist. Given the client condition:\n\n` +
+//     condition +
+//     `\n\nGenerate a short, safe exercise instruction. First of the routine.`;
+
+//   const chat = await openai.chat.completions.create({
+//     model: "gpt-4o-mini",
+//     messages: [{ role: "user", content: prompt }],
+//   });
+
+//   console.log(chat);
+
+//   const plan = chat.choices[0].message.content;
+//   console.log("plan", plan);
+//   res.json({ plan });
+// });
 
 /* ---------- 3. video critique ---------- */
 app.post("/critique", upload.single("video"), async (req, res) => {

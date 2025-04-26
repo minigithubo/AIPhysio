@@ -96,26 +96,6 @@ function appendDateLabelIfNeeded() {
   }
 }
 
-/*
-const file = condFile.files[0];
-    const fd = new FormData();
-    // Check if the file is a PDF
-    const isPDF = file.type === 'application/pdf';
-    if (!isPDF) {
-      alert('Please upload a PDF file.');
-      return;
-    }
-    fd.append('file', file);
-    response = await fetch('/condition', { method: 'POST', body: fd });
-    // alert response
-    const { ok } = await response.json();
-    if (ok) {
-      alert('Condition uploaded successfully.');
-    } else {
-      alert('Failed to upload condition.');
-    }
-      */
-
 async function sendMessageToServer(text) {
 
     // send message to server
@@ -146,14 +126,16 @@ async function uploadPDFToServer(file) {
   formData.append("file", file);
   
   try {
-    const res = await fetch("http://your-server-address/api/upload", {
+    const res = await fetch("/condition", {
       method: "POST",
       body: formData,
     });
     const result = await res.json();
     console.log("PDF upload result:", result);
+    appendMessage("server", data.reply);
   } catch (error) {
     console.error("Upload error:", error);
+    appendMessage("server", "Error: " + error.message);
   }
 }
 
