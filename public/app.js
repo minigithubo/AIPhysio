@@ -59,13 +59,14 @@ function appendMessage(sender, text) {
 
   const bubble = document.createElement("div");
   bubble.className = "message-bubble";
-  bubble.textContent = text;
+  bubble.innerHTML = marked.parse(text); // << 여기 수정 (markdown 파싱)
 
   row.appendChild(bubble);
 
   messagesDiv.appendChild(row);
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
+
 
 function appendVideo(sender, videoUrl) {
   const row = document.createElement("div");
@@ -175,4 +176,14 @@ async function uploadVideoToServer(file) {
     console.error("Upload error:", error);
     appendMessage("server", "Error analyzing video");
   }
+}
+
+
+const messages = document.getElementById('messages');
+
+function addMessage(markdownText, isBot = false) {
+  const messageElement = document.createElement('div');
+  messageElement.className = isBot ? 'bot-message' : 'user-message';
+  messageElement.innerHTML = marked.parse(markdownText); // <-- 여기 핵심!
+  messages.appendChild(messageElement);
 }
