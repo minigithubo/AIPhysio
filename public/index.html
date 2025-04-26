@@ -70,9 +70,27 @@
           <input type="file" id="file-input" accept="*/*" style="display: none;">
           <button type="submit" class="icon-button">➤</button>
         </div>
-      </form>      
+      </form> 
+      <div id="video-action-buttons" style="display: none; margin: 10px 0; text-align: center;">
+        <button id="take-video-button">Take Video 📷</button>
+        <button id="upload-video-button">⬆️</button>
+      </div>     
   </main>
 </div>
+
+<!-- 비디오 모달 -->
+<div id="video-modal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <video id="camera-preview" autoplay playsinline muted style="width: 300px; height: 400px; background: black;"></video>
+    <div style="margin-top: 10px;">
+      <button id="start-record-button">Start Recording</button>
+      <button id="stop-record-button" disabled>Stop Recording</button>
+      <button id="close-modal-button">Close</button>
+    </div>
+  </div>
+</div>
+
+
 
 <script src="app.js"></script>
 </body>

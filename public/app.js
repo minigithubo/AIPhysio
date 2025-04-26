@@ -178,5 +178,74 @@ window.addEventListener('DOMContentLoaded', () => {
       appendMessage("server", "Before we get started, please upload your physical therapy prescription.\nThis ensures that your care plan is perfectly tailored to your specific needs, guided by your healthcare provider's expert recommendation.");
     }, 1500); // Hello 뜬 후 1.5초 후
   }, 700); // 페이지 열리고 0.5초 후 Hello
+
+  switchToVideoActions();
+}); 
+
+
+function switchToVideoActions() {
+  document.getElementById('chat-form').style.display = 'none'; // 입력창 숨김
+  document.getElementById('video-action-buttons').style.display = 'flex'; // 비디오 버튼 보여줌
+}
+
+// 비디오 모달 관련
+const takeVideoButton = document.getElementById('take-video-button');
+const videoModal = document.getElementById('video-modal');
+const cameraPreview = document.getElementById('camera-preview');
+const closeModalButton = document.getElementById('close-modal-button');
+const startRecordButton = document.getElementById('start-record-button');
+const stopRecordButton = document.getElementById('stop-record-button');
+
+let mediaStream = null;
+let mediaRecorder = null;
+let recordedChunks = [];
+
+// Take Video 버튼 클릭 → 모달 열고 카메라 켜기
+takeVideoButton.addEventListener('click', async () => {
+  videoModal.style.display = 'flex';
+
+  try {
+    mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+    cameraPreview.srcObject = mediaStream;
+  } catch (err) {
+    alert('Camera access denied: ' + err.message);
+  }
 });
 
+// Start Recording 버튼 클릭
+startRecordButton.addEventListener('click', () => {
+  if (mediaStream) {
+    recordedChunks = [];
+    mediaRecorder = new MediaRecorder(mediaStream, { mimeType: 'video/webm' });
+
+    mediaRecorder.ondataavailable = event => {
+      if (event.data.size > 0) {
+        recordedChunks.push(event.data);
+      }
+    };
+
+    mediaRecorder.start();
+    startRecordButton.disabled = true;
+    stopRecordButton.disabled = false;
+  }
+});
+
+// Stop Recording 버튼 클릭
+stopRecordButton.addEventListener('click', () => {
+  if (mediaRecorder) {
+    mediaRecorder.stop();
+    startRecordButton.disabled = false;
+    stopRecordButton.disabled = true;
+  }
+});
+
+// Close 버튼 클릭 → 모달 닫고 카메라 끄기
+closeModalButton.addEventListener('click', () => {
+  videoModal.style.display = 'none';
+
+  if (mediaStream) {
+    mediaStream.getTracks().forEach(track => track.stop());
+    mediaStream = null;
+    cameraPreview.srcObject = null;
+  }
+});
