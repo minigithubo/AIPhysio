@@ -187,3 +187,14 @@ function addMessage(markdownText, isBot = false) {
   messageElement.innerHTML = marked.parse(markdownText); // <-- 여기 핵심!
   messages.appendChild(messageElement);
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    appendMessage("server", "Hello, Welcome to [App Name], your personalized partner in recovery and beyond.\nWe're here to empower your journey to full strength — one step at a time.");
+
+    setTimeout(() => {
+      appendMessage("server", "Before we get started, please upload your physical therapy prescription.\nThis ensures that your care plan is perfectly tailored to your specific needs, guided by your healthcare provider's expert recommendation.");
+    }, 1500); // Hello 뜬 후 1.5초 후
+  }, 700); // 페이지 열리고 0.5초 후 Hello
+});
+
