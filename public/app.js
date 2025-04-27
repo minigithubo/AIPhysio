@@ -132,7 +132,7 @@ async function uploadPDFToServer(file) {
     });
     const result = await res.json();
     console.log("PDF upload result:", result);
-    appendMessage("server", data.reply);
+    appendMessage("server", result.reply);
   } catch (error) {
     console.error("Upload error:", error);
     appendMessage("server", "Error: " + error.message);
@@ -179,7 +179,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 1500); // Hello 뜬 후 1.5초 후
   }, 700); // 페이지 열리고 0.5초 후 Hello
 
-  switchToVideoActions();
+  // switchToVideoActions();
 }); 
 
 

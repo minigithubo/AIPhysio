@@ -44,21 +44,18 @@ app.post("/condition", upload.single("file"), async (req, res) => {
   const text = req.file
     ? await readFile(req.file.path, "utf8")
     : JSON.stringify(req.body, null, 2);
-  console.log("text", text);
-  return;
-  // store session state in memory (demo only!)
-  const prompt = text;
-  console.log("condition", prompt);
-  prompt += "Act as a licensed physical therapist. Given the client condition, generate a short, safe exercise instruction. First of the routine.";
+  console.log("oolllaaa");
+
+  const prompt = "Act as a licensed physical therapist. Given the client condition, generate a short, safe exercise instruction. First of the routine. Ask to do a squat with detailed instrutions";
   
   const chat = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     messages: [{ role: "user", content: prompt }],
   });
   
-  const plan = chat.choices[0].message.content;
-  console.log("plan", plan);
-  res.json({ plan });
+  const reply = chat.choices[0].message.content;
+  console.log("plan", reply);
+  res.json({ reply });
 });
 
 /* ---------- 2. generate exercise plan ---------- */
