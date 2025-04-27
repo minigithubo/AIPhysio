@@ -246,3 +246,22 @@ closeModalButton.addEventListener('click', () => {
     cameraPreview.srcObject = null;
   }
 });
+
+// 오늘 날짜 표시 추가 (맨 위에)
+function insertTodayLabel() {
+  const dateLabel = document.createElement('div');
+  dateLabel.className = 'date-label';
+  
+  // 날짜 + 시간 넣기 (ex. Today, 9:45 AM)
+  const now = new Date();
+  const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+  const formattedTime = now.toLocaleTimeString([], options);
+  
+  dateLabel.textContent = `Today, ${formattedTime}`;
+  
+  messagesDiv.appendChild(dateLabel);
+}
+
+// 페이지 로드할 때 Today 삽입
+insertTodayLabel();
+
