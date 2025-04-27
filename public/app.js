@@ -213,7 +213,7 @@ function addMessage(markdownText, isBot = false) {
 
 window.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
-    appendMessage("server", "Hello, Welcome to [App Name], your personalized partner in recovery and beyond.\nWe're here to empower your journey to full strength — one step at a time.");
+    appendMessage("server", "Hello, Welcome to Physio AI, your personalized partner in recovery and beyond.\nWe're here to empower your journey to full strength — one step at a time.");
 
     setTimeout(() => {
       appendMessage("server", "Before we get started, please upload your physical therapy prescription.\nThis ensures that your care plan is perfectly tailored to your specific needs, guided by your healthcare provider's expert recommendation.");
@@ -313,11 +313,20 @@ uploadVideoButton.addEventListener('click', () => {
   document.getElementById('video-action-buttons').style.display = 'none';
   // 2. chat-form 다시 보여주기
   document.getElementById('chat-form').style.display = 'flex';
-  // 3. 성공 메시지 바로 띄우기
-  appendMessage('server', 'Upload completed ✅');
 
-  sendMessageToServer("write a critique of doing a squat. Even if you can't see it, write it as if I am doing a decent sqaut with room for improvements");
+  // 3. 녹화된 비디오를 채팅창에 보여주기
+  if (recordedChunks.length > 0) {
+    const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+    const videoUrl = URL.createObjectURL(videoBlob);
+    appendFile('user', videoUrl, 'video/webm'); // ✅ 내가 보낸 것처럼 보이게
+  }
+
+  // 4. 서버에 critique 요청 보내기
+  sendMessageToServer("write a critique of doing a squat. Even if you can't see it, write it as if I am doing a decent squat with room for improvements");
+
+  // 5. (선택) "Upload completed ✅" 메시지 추가할지 여부는 네가 선택
 });
+
 
 function showLoading() {
   const row = document.createElement("div");
