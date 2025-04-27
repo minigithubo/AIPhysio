@@ -42,6 +42,7 @@ chatForm.addEventListener("submit", async (e) => {
     if (file.type === "application/pdf") {
       await uploadPDFToServer(file);
       appendMessage("server", "PDF uploaded successfully.");
+      switchToVideoActions(); // 비디오 버튼 보여줌
     } else if (file.type.startsWith("video/")) {
       await uploadVideoToServer(file);
       appendMessage("server", "Video uploaded successfully.");
@@ -201,16 +202,12 @@ let mediaRecorder = null;
 let recordedChunks = [];
 
 // Take Video 버튼 클릭 → 모달 열고 카메라 켜기
-takeVideoButton.addEventListener('click', async () => {
+takeVideoButton.addEventListener('click', () => {
   videoModal.style.display = 'flex';
-
-  try {
-    mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
-    cameraPreview.srcObject = mediaStream;
-  } catch (err) {
-    alert('Camera access denied: ' + err.message);
-  }
+  const poseDemoFrame = document.getElementById('pose-demo-frame');
+  poseDemoFrame.src = '/pose-demo.html'; // ✅ 경로 중요
 });
+
 
 // Start Recording 버튼 클릭
 startRecordButton.addEventListener('click', () => {
