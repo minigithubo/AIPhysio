@@ -48,7 +48,7 @@
   }
   
   .menu-item:hover {
-    background-color: #f1f1f1;
+    background-color: #96a1e5;
   }
   
   .menu-item.active {
@@ -107,7 +107,7 @@
   .online-dot {
     width: 8px;
     height: 8px;
-    background: green;
+    background: rgb(19, 52, 109);
     border-radius: 50%;
     display: inline-block;
   }
@@ -124,7 +124,7 @@
     flex-direction: column;
     height: 100%;
     width: 100%;
-    background-color: #fff;
+    background-color: #3472b5;
   }
   
   /* 헤더 */
@@ -143,16 +143,39 @@
     flex: 1;
     padding: 20px;
     overflow-y: auto;
-    background: #f9f9f9;
+    background: #a2abc7;
     display: flex;
     flex-direction: column;
     align-items: center; /* ✅ 중앙 정렬 */
+    
+  }
+  .message-row {
+    width: 90%;
+    max-width: 700px;
+    display: flex;
+    margin-bottom: 12px; /* ✅ 메세지끼리 아래 간격 추가 */
+  }
+  .message-bubble {
+    max-width: 80%;
+    padding: 10px 14px;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
+    word-break: break-word;
   }
   
-  .message-row {
-    width: 100%;
-    max-width: 700px; /* ✅ 고정 폭 */
-    display: flex;
+  /* 유저 메세지 (오른쪽) */
+  .message-row.user .message-bubble {
+    background-color: #3472b5; /* 빨간색 톤 (원하면 수정 가능) */
+    color: white;
+    border-radius: 18px 18px 4px 18px; /* 위 오른쪽만 살짝 */
+  }
+  
+  /* 서버 메세지 (왼쪽) */
+  .message-row.server .message-bubble {
+    background-color: #f1f0f0;
+    color: black;
+    border-radius: 18px 18px 18px 4px; /* 위 왼쪽만 살짝 */
   }
   
   .message-row.user {
@@ -161,24 +184,6 @@
   
   .message-row.server {
     justify-content: flex-start;
-  }
-  
-  .message-bubble {
-    max-width: 80%;
-    padding: 10px 14px;
-    border-radius: 16px;
-    font-size: 14px;
-    line-height: 1.4;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.08);
-  }
-  
-  .message-row.user .message-bubble {
-    background-color: #e7f3ff;
-  }
-  
-  .message-row.server .message-bubble {
-    background-color: #fff;
-    border: 1px solid #eee;
   }
   
   /* 입력 폼 */
@@ -345,4 +350,11 @@
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+}
+.date-label {
+  text-align: center;
+  font-size: 15px; /* ✅ 작게 */
+  color: #141313;     /* ✅ 흐린 회색 */
+  margin: 10px 0;  /* ✅ 위아래 간격 */
+
 }
