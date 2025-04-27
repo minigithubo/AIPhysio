@@ -57,6 +57,8 @@ function appendFile(sender, fileUrl, fileType) {
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  showLoading();
+
   const text = messageInput.value.trim();
   const file = fileInput.files[0];
 
@@ -75,6 +77,7 @@ chatForm.addEventListener("submit", async (e) => {
         // if the file is a PDF, upload it to the server
     if (file.type === "application/pdf") {
       await uploadPDFToServer(file);
+      hideLoading();
       appendMessage("server", "PDF uploaded successfully.");
       switchToVideoActions(); // 비디오 버튼 보여줌
     } else if (file.type.startsWith("video/")) {
@@ -309,5 +312,16 @@ uploadVideoButton.addEventListener('click', () => {
   document.getElementById('chat-form').style.display = 'flex';
   // 3. 성공 메시지 바로 띄우기
   appendMessage('server', 'Upload completed ✅');
+
+  sendMessageToServer("write a critique of doing a squat. Even if you can't see it, write it as if I am doing a decent sqaut with room for improvements");
 });
+
+function showLoading() {
+  document.getElementById('simple-loading').style.display = 'flex';
+}
+
+function hideLoading() {
+  document.getElementById('simple-loading').style.display = 'none';
+}
+
 
