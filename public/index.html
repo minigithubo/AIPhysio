@@ -80,15 +80,18 @@
 
 <!-- 비디오 모달 -->
 <div id="video-modal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <iframe id="pose-demo-frame" src="" style="width: 100%; height: 100%; border: none;"></iframe>
-    <div style="margin-top: 10px;">
-      <button id="start-record-button">Start Recording</button>
-      <button id="stop-record-button" disabled>Stop Recording</button>
+  <div class="modal-content" style="position: relative;">
+    <iframe id="pose-demo-frame" src="" style="width: 1000px; height: 700px; border: none; border-radius: 12px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.3);"></iframe>
+
+    <!-- 버튼은 모달 안에 절대 위치로 띄운다 -->
+    <div style="position: absolute; top: 20px; right: 20px;">
+      <button id="start-record-button">Start</button>
+      <button id="stop-record-button" disabled>Stop</button>
       <button id="close-modal-button">Close</button>
     </div>
   </div>
 </div>
+
 
 
 
