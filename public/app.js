@@ -57,7 +57,6 @@ function appendFile(sender, fileUrl, fileType) {
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  showLoading();
 
   const text = messageInput.value.trim();
   const file = fileInput.files[0];
@@ -75,10 +74,12 @@ chatForm.addEventListener("submit", async (e) => {
   if (file) {
     appendFile("user", URL.createObjectURL(file), file.type); 
         // if the file is a PDF, upload it to the server
+    showLoading();
+
     if (file.type === "application/pdf") {
       await uploadPDFToServer(file);
       hideLoading();
-      appendMessage("server", "PDF uploaded successfully.");
+      // appendMessage("server", "PDF uploaded successfully.");
       switchToVideoActions(); // 비디오 버튼 보여줌
     } else if (file.type.startsWith("video/")) {
       await uploadVideoToServer(file);
@@ -135,7 +136,7 @@ function appendDateLabelIfNeeded() {
 }
 
 async function sendMessageToServer(text) {
-
+  showLoading()
     // send message to server
     try {
       const response = await fetch("/api/chat", {
@@ -151,9 +152,11 @@ async function sendMessageToServer(text) {
       }
       const data = await response.json();
       console.log("data", data);
+      hideLoading()
       appendMessage("server", data.reply);
     } catch (error) {
       console.error("Error:", error);
+      hideLoading()
       appendMessage("server", "Error: " + error.message);
     }
 }
@@ -317,11 +320,31 @@ uploadVideoButton.addEventListener('click', () => {
 });
 
 function showLoading() {
-  document.getElementById('simple-loading').style.display = 'flex';
+  const row = document.createElement("div");
+  row.className = "message-row server loading-row";
+  row.id = "loading-message";
+
+  const bubble = document.createElement("div");
+  bubble.className = "message-bubble";
+
+  bubble.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div class="spinner" style="width: 20px; height: 20px; border: 3px solid #ccc; border-top: 3px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+      <div>Please wait...</div>
+    </div>
+  `;
+
+  row.appendChild(bubble);
+  messagesDiv.appendChild(row);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
 function hideLoading() {
-  document.getElementById('simple-loading').style.display = 'none';
+  const loadingMessage = document.getElementById("loading-message");
+  if (loadingMessage) {
+    loadingMessage.remove();
+  }
 }
+
 
 
