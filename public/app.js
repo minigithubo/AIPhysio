@@ -20,6 +20,40 @@ headerOptions.addEventListener("click", () => {
   }
 });
 
+function appendFile(sender, fileUrl, fileType) {
+  const row = document.createElement("div");
+  row.className = `message-row ${sender}`;
+
+  const bubble = document.createElement("div");
+  bubble.className = "message-bubble";
+
+  if (fileType === "application/pdf") {
+    const iframe = document.createElement("iframe");
+    iframe.src = fileUrl;
+    iframe.width = "300";
+    iframe.height = "400";
+    iframe.style.border = "none";
+    bubble.appendChild(iframe);
+  } else if (fileType.startsWith("video/")) {
+    const video = document.createElement("video");
+    video.src = fileUrl;
+    video.controls = true;
+    video.width = 300;
+    bubble.appendChild(video);
+  } else {
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.target = "_blank";
+    link.textContent = "Download file";
+    bubble.appendChild(link);
+  }
+
+  row.appendChild(bubble);
+  messagesDiv.appendChild(row);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -37,8 +71,8 @@ chatForm.addEventListener("submit", async (e) => {
   }
 
   if (file) {
-    appendVideo("user", URL.createObjectURL(file));
-    // if the file is a PDF, upload it to the server
+    appendFile("user", URL.createObjectURL(file), file.type); 
+        // if the file is a PDF, upload it to the server
     if (file.type === "application/pdf") {
       await uploadPDFToServer(file);
       appendMessage("server", "PDF uploaded successfully.");
@@ -264,4 +298,16 @@ function insertTodayLabel() {
 
 // 페이지 로드할 때 Today 삽입
 insertTodayLabel();
+
+
+const uploadVideoButton = document.getElementById('upload-video-button');
+
+uploadVideoButton.addEventListener('click', () => {
+  // 1. video-action-buttons 숨기고
+  document.getElementById('video-action-buttons').style.display = 'none';
+  // 2. chat-form 다시 보여주기
+  document.getElementById('chat-form').style.display = 'flex';
+  // 3. 성공 메시지 바로 띄우기
+  appendMessage('server', 'Upload completed ✅');
+});
 
