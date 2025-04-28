@@ -314,18 +314,35 @@ uploadVideoButton.addEventListener('click', () => {
   // 2. chat-form 다시 보여주기
   document.getElementById('chat-form').style.display = 'flex';
 
-  // 3. 녹화된 비디오를 채팅창에 보여주기
-  if (recordedChunks.length > 0) {
-    const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
-    const videoUrl = URL.createObjectURL(videoBlob);
-    appendFile('user', videoUrl, 'video/webm'); // ✅ 내가 보낸 것처럼 보이게
-  }
+  appendFakeVideo('user');
+
 
   // 4. 서버에 critique 요청 보내기
   sendMessageToServer("write a critique of doing a squat. Even if you can't see it, write it as if I am doing a decent squat with room for improvements");
 
   // 5. (선택) "Upload completed ✅" 메시지 추가할지 여부는 네가 선택
 });
+
+function appendFakeVideo(sender) {
+  const row = document.createElement("div");
+  row.className = `message-row ${sender}`;
+
+  const bubble = document.createElement("div");
+  bubble.className = "message-bubble";
+
+  const video = document.createElement("video");
+  video.controls = true;
+  video.width = 300;
+  video.style.background = "#000"; // 검정 배경
+  video.style.height = "200px"; // 원하는 높이
+  video.innerHTML = "<source src='' type='video/mp4'>"; // src 없는 가짜 비디오
+
+  bubble.appendChild(video);
+  row.appendChild(bubble);
+
+  messagesDiv.appendChild(row);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
 
 
 function showLoading() {
